@@ -1,12 +1,11 @@
 import './globals.css'
+import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import { Toaster } from "@/components/ui/toaster"
-import Navbar from '@/components/Navbar'
 import { ClerkProvider } from '@clerk/nextjs'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'AI Resume Enhancer',
   description: 'Boost your career with AI-powered resume optimization',
 }
@@ -19,13 +18,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={`${inter.className} bg-white text-gray-900`}>
-          <Navbar />
-          <main>
-            {children}
-          </main>
-          <Toaster />
-        </body>
+        <body className={inter.className}>{children}</body>
       </html>
     </ClerkProvider>
   )
