@@ -1,101 +1,213 @@
-import Image from "next/image";
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Loader, Copy, Download, FileText, Users, Zap, ArrowRight } from 'lucide-react'
+// import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
+import { useCompletion } from 'ai/react'
+import Link from 'next/link'
+import { useUser } from '@clerk/nextjs'
+
+export default function HomePage() {
+  const [step, setStep] = useState(1)
+  const { toast } = useToast()
+  const { isSignedIn } = useUser()
+
+  const {
+    completion,
+    input,
+    isLoading,
+    handleInputChange,
+    handleSubmit,
+  } = useCompletion({
+    api: '/api/enhance-resume',
+  })
+
+  const enhanceResume = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!input.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter your resume content before enhancing.",
+        variant: "destructive",
+      })
+      return
+    }
+    handleSubmit(e)
+    setStep(3)
+  }
+
+  const downloadResume = (content: string, filename: string) => {
+    const element = document.createElement("a");
+    const file = new Blob([content], {type: 'text/plain'});
+    element.href = URL.createObjectURL(file);
+    element.download = filename;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  const copyToClipboard = (content: string) => {
+    navigator.clipboard.writeText(content).then(() => {
+      toast({
+        title: "Copied",
+        description: "Resume content copied to clipboard.",
+      })
+    }, (err) => {
+      console.error('Could not copy text: ', err);
+    });
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <div className="container mx-auto px-4 py-16">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            Elevate Your Career
+          </h1>
+          <p className="text-2xl text-gray-600 mb-8">Transform your resume with the power of AI</p>
+          <div className="flex justify-center space-x-4">
+            <Button size="lg" onClick={() => setStep(2)} className="bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+              Try for free
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+            <Button size="lg" variant="outline">Request Demo</Button>
+          </div>
+        </motion.div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+          className="mb-16"
+        >
+          <div className="flex justify-center space-x-12">
+            {['Google', 'Microsoft', 'Amazon', 'Apple', 'Facebook'].map((company, index) => (
+              <motion.div
+                key={company}
+                className="text-gray-400 text-lg"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
+              >
+                {company}
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 0.5 }}
+        >
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-800">How AI Resume Enhancer Works</h2>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              { icon: FileText, title: "Upload Your Resume", description: "Simply paste your existing resume content into our system." },
+              { icon: Zap, title: "AI Enhancement", description: "Our AI analyzes and optimizes your resume for maximum impact." },
+              { icon: Users, title: "Stand Out to Employers", description: "Get noticed with a professionally enhanced resume tailored to your industry." }
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 + index * 0.2, duration: 0.5 }}
+              >
+                <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
+                  <CardHeader>
+                    <feature.icon className="w-12 h-12 text-blue-600 mb-4" />
+                    <CardTitle className="text-xl font-bold">{feature.title}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-gray-600">{feature.description}</p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {step > 1 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mt-16"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            <Card className="bg-white shadow-xl">
+              <CardHeader>
+                <CardTitle className="text-2xl font-bold text-gray-800">{step === 2 ? "Enhance Your Resume" : "Your Enhanced Resume"}</CardTitle>
+                <CardDescription className="text-gray-600">
+                  {step === 2 ? "Paste your resume below to get started" : "Compare your original and enhanced resumes"}
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {step === 2 ? (
+                  <form onSubmit={enhanceResume} className="space-y-4">
+                    <Input
+                      placeholder="Paste your resume here..."
+                      value={input}
+                      onChange={handleInputChange}
+                      className="h-40 bg-gray-50 border-2 border-gray-200 focus:border-blue-500 transition-colors duration-300"
+                    />
+                    <Button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                      {isLoading ? (
+                        <>
+                          <Loader className="mr-2 h-4 w-4 animate-spin" />
+                          Enhancing...
+                        </>
+                      ) : (
+                        'Enhance My Resume'
+                      )}
+                    </Button>
+                  </form>
+                ) : (
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div>
+                      <h3 className="font-bold mb-2 text-gray-800">Original Resume</h3>
+                      <Input value={input} readOnly className="h-40 mb-2 bg-gray-50" />
+                      <div className="flex justify-between">
+                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(input)}>
+                          <Copy className="mr-2 h-4 w-4" />
+                          Copy
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => downloadResume(input, 'original_resume.txt')}>
+                          <Download className="mr-2 h-4 w-4" />
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+                    <div>
+                      <h3 className="font-bold mb-2 text-gray-800">Enhanced Resume</h3>
+                      <Input value={completion} readOnly className="h-40 mb-2 bg-gray-50" />
+                      <div className="flex justify-between">
+                        <Button variant="outline" size="sm" onClick={() => copyToClipboard(completion)}>
+                          <Copy className="mr-2 h-4 w-4" />
+                          Copy
+                        </Button>
+                        <Button variant="outline" size="sm" onClick={() => downloadResume(completion, 'enhanced_resume.txt')}>
+                          <Download className="mr-2 h-4 w-4" />
+                          Download
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
+      </div>
     </div>
-  );
+  )
 }
