@@ -10,6 +10,10 @@ import { Loader, Copy, Download, FileText, Users, Zap, ArrowRight, Bell, BarChar
 // import { useToast } from "@/components/ui/use-toast"
 import { useToast } from "@/hooks/use-toast"
 import { useCompletion } from 'ai/react'
+import { redirect } from 'next/navigation'
+import { auth } from '@clerk/nextjs'
+// import DashboardContent from '@/components/DashboardContent'
+import DashboardContent from '@/components/DashboardPage'
 
 import { useUser } from '@clerk/nextjs'
 import {
@@ -21,6 +25,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+
+// Removed duplicate DashboardPage function
 export default function DashboardPage() {
   const { user } = useUser()
   const [activeTab, setActiveTab] = useState('profile')
