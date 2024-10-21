@@ -1,10 +1,17 @@
 // import { useToast } from "@/hooks/use-toast"
-'use client'
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Check } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Check } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function PricingPage() {
   const plans = [
@@ -40,11 +47,11 @@ export default function PricingPage() {
         "API access",
       ],
     },
-  ]
+  ];
 
   return (
     <div className="container mx-auto px-4 py-16">
-      <motion.h1 
+      <motion.h1
         className="text-4xl md:text-5xl font-bold text-center mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -52,7 +59,7 @@ export default function PricingPage() {
       >
         Choose Your Plan
       </motion.h1>
-      <motion.p 
+      <motion.p
         className="text-xl text-gray-600 text-center mb-12"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -70,11 +77,17 @@ export default function PricingPage() {
           >
             <Card className="bg-white shadow-lg hover:shadow-xl transition-shadow duration-300">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-gray-800">{plan.name}</CardTitle>
-                <CardDescription className="text-gray-600">{plan.description}</CardDescription>
+                <CardTitle className="text-2xl font-bold text-gray-800">
+                  {plan.name}
+                </CardTitle>
+                <CardDescription className="text-gray-600">
+                  {plan.description}
+                </CardDescription>
               </CardHeader>
               <CardContent>
-                <p className="text-4xl font-bold mb-4 text-blue-600">{plan.price}</p>
+                <p className="text-4xl font-bold mb-4 text-blue-600">
+                  {plan.price}
+                </p>
                 <ul className="space-y-2">
                   {plan.features.map((feature) => (
                     <li key={feature} className="flex items-center">
@@ -94,5 +107,5 @@ export default function PricingPage() {
         ))}
       </div>
     </div>
-  )
+  );
 }

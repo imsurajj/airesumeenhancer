@@ -1,25 +1,31 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { ArrowRight, FileText, Zap, Users, Check } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { SignInButton, useUser } from '@clerk/nextjs'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { ArrowRight, FileText, Zap, Users, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+import { SignInButton, useUser } from "@clerk/nextjs";
 
 export default function HomePage() {
-  const router = useRouter()
-  const { isSignedIn } = useUser()
+  const router = useRouter();
+  const { isSignedIn } = useUser();
 
   const handleTryForFree = () => {
     if (isSignedIn) {
-      router.push('/upload')
+      router.push("/upload");
     } else {
-      router.push('/sign-in?redirect=/upload')
+      router.push("/sign-in?redirect=/upload");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
@@ -33,7 +39,9 @@ export default function HomePage() {
           <h1 className="text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
             Elevate Your Career
           </h1>
-          <p className="text-2xl text-gray-600 mb-8">Transform your resume with the power of AI</p>
+          <p className="text-2xl text-gray-600 mb-8">
+            Transform your resume with the power of AI
+          </p>
           <div className="flex justify-center space-x-4">
             <Button
               onClick={handleTryForFree}
@@ -57,8 +65,13 @@ export default function HomePage() {
           transition={{ delay: 1.1, duration: 0.5 }}
           className="mt-16 bg-blue-600 text-white rounded-lg p-8 text-center"
         >
-          <h2 className="text-3xl font-bold mb-4">Ready to Take Your Career to the Next Level?</h2>
-          <p className="text-xl mb-6">Join thousands of professionals who have already enhanced their resumes with AI.</p>
+          <h2 className="text-3xl font-bold mb-4">
+            Ready to Take Your Career to the Next Level?
+          </h2>
+          <p className="text-xl mb-6">
+            Join thousands of professionals who have already enhanced their
+            resumes with AI.
+          </p>
           <Button
             onClick={handleTryForFree}
             size="lg"
@@ -74,33 +87,57 @@ export default function HomePage() {
             <div>
               <h3 className="font-bold mb-4">Product</h3>
               <ul className="space-y-2">
-                <li><Link href="/features">Features</Link></li>
-                <li><Link href="/pricing">Pricing</Link></li>
-                <li><Link href="/faq">FAQ</Link></li>
+                <li>
+                  <Link href="/features">Features</Link>
+                </li>
+                <li>
+                  <Link href="/pricing">Pricing</Link>
+                </li>
+                <li>
+                  <Link href="/faq">FAQ</Link>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold mb-4">Company</h3>
               <ul className="space-y-2">
-                <li><Link href="/about">About Us</Link></li>
-                <li><Link href="/careers">Careers</Link></li>
-                <li><Link href="/contact">Contact</Link></li>
+                <li>
+                  <Link href="/about">About Us</Link>
+                </li>
+                <li>
+                  <Link href="/careers">Careers</Link>
+                </li>
+                <li>
+                  <Link href="/contact">Contact</Link>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold mb-4">Resources</h3>
               <ul className="space-y-2">
-                <li><Link href="/blog">Blog</Link></li>
-                <li><Link href="/guides">Guides</Link></li>
-                <li><Link href="/support">Support</Link></li>
+                <li>
+                  <Link href="/blog">Blog</Link>
+                </li>
+                <li>
+                  <Link href="/guides">Guides</Link>
+                </li>
+                <li>
+                  <Link href="/support">Support</Link>
+                </li>
               </ul>
             </div>
             <div>
               <h3 className="font-bold mb-4">Legal</h3>
               <ul className="space-y-2">
-                <li><Link href="/privacy">Privacy Policy</Link></li>
-                <li><Link href="/terms">Terms of Service</Link></li>
-                <li><Link href="/cookies">Cookie Policy</Link></li>
+                <li>
+                  <Link href="/privacy">Privacy Policy</Link>
+                </li>
+                <li>
+                  <Link href="/terms">Terms of Service</Link>
+                </li>
+                <li>
+                  <Link href="/cookies">Cookie Policy</Link>
+                </li>
               </ul>
             </div>
           </div>
@@ -110,5 +147,5 @@ export default function HomePage() {
         </footer>
       </main>
     </div>
-  )
+  );
 }

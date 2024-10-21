@@ -1,20 +1,20 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-import { ClerkProvider } from '@clerk/nextjs'
-import Navbar from '@/components/Navbar'
-import { Toaster } from "@/components/ui/toaster"
+import "./globals.css";
+import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: 'AI Resume Enhancer',
-  description: 'Boost your career with AI-powered resume optimization',
-}
+  title: "AI Resume Enhancer",
+  description: "Boost your career with AI-powered resume optimization",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <ClerkProvider>
@@ -28,5 +28,5 @@ export default function RootLayout({
         </body>
       </html>
     </ClerkProvider>
-  )
+  );
 }
