@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
+    "target": "ESNext", 
     "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
+      "dom",            
+      "dom.iterable",   
+      "esnext"           
     ],
     "allowJs": true,
     "skipLibCheck": true,
@@ -33,7 +34,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "tailwind.config.ts"  ],
   "exclude": [
     "node_modules"
   ]

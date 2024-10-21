@@ -1,31 +1,43 @@
-import { Configuration, OpenAIApi } from 'openai-edge'
-import { OpenAIStream, StreamingTextResponse } from 'ai'
+import { NextResponse } from 'next/server'
+import OpenAI from 'openai'
+import { auth } from '@clerk/nextjs'
 
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 })
-const openai = new OpenAIApi(config)
-
-export const runtime = 'edge'
 
 export async function POST(req: Request) {
-  const { prompt } = await req.json()
+  try {
+    const { userId } = auth()
+    if (!userId) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
 
-  const response = await openai.createChatCompletion({
-    model: 'gpt-3.5-turbo',
-    stream: true,
-    messages: [
-      {
-        role: 'system',
-        content: 'You are an AI assistant that enhances resumes. Analyze the given resume and provide suggestions to improve its content, structure, and impact. Focus on highlighting key achievements, using action verbs, and tailoring the resume to industry standards.'
-      },
-      {
-        role: 'user',
-        content: prompt
-      }
-    ],
-  })
+    const { prompt } = await req.json()
 
-  const stream = OpenAIStream(response)
-  return new StreamingTextResponse(stream)
+    if (!prompt) {
+      return NextResponse.json({ error: 'Prompt is required' }, { status: 400 })
+    }
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "system", content: "You are a professional resume writer. Enhance the given resume to make it more appealing to employers." },
+        { role: "user", content: `Enhance the following resume:\n\n${prompt}` }
+      ],
+      max_tokens: 1000,
+      temperature: 0.7,
+    })
+
+    const enhancedResume = completion.choices[0].message.content
+
+    if (!enhancedResume) {
+      throw new Error('No result returned from AI')
+    }
+
+    return NextResponse.json({ result: enhancedResume })
+  } catch (error) {
+    console.error('OpenAI API error:', error)
+    return NextResponse.json({ error: 'Failed to enhance resume' }, { status: 500 })
+  }
 }
