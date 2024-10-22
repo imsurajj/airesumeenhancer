@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  swcMinify: false,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -8,6 +9,7 @@ const nextConfig = {
         fs: false,
         net: false,
         tls: false,
+        canvas: false,
       };
     }
     return config;
