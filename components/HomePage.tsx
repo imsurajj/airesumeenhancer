@@ -7,7 +7,7 @@ import { ArrowRight, FileText, Zap, Users } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SignInButton, useUser } from '@clerk/nextjs'
-import ErrorBoundary from '@/components/ErrorBoundary'
+// import ErrorBoundary from '@/components/ErrorBoundary'
 
 export default function HomePage() {
   const router = useRouter()
@@ -22,7 +22,7 @@ export default function HomePage() {
   }
 
   return (
-    <ErrorBoundary>
+
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
         <main className="container mx-auto px-4 py-16">
           <motion.div
@@ -160,6 +160,5 @@ export default function HomePage() {
           </footer>
         </main>
       </div>
-    </ErrorBoundary>
   )
 }

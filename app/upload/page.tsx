@@ -12,7 +12,7 @@ import { Loader, Upload } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { useUser } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
-import ErrorBoundary from '@/components/ErrorBoundary'
+// import ErrorBoundary from '@/components/ErrorBoundary'
 
 const PDFViewer = dynamic(() => import('@/components/PDFViewer'), { ssr: false })
 
@@ -105,65 +105,65 @@ export default function UploadPage() {
     }
   }
 
-  return (
-    <ErrorBoundary>
-      <div className="container mx-auto px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <Card className="bg-white shadow-xl">
-            <CardHeader>
-              <CardTitle className="text-2xl font-bold text-gray-800">Upload Your Resume</CardTitle>
-              <CardDescription className="text-gray-600">
-                Upload your resume or paste your content to get started
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={enhanceResume} className="space-y-4">
-                <div className="flex items-center justify-center w-full">
-                  <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                      <Upload className="w-10 h-10 mb-3 text-gray-400" />
-                      <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                      <p className="text-xs text-gray-500">PDF, DOC, DOCX (MAX. 5MB)</p>
-                    </div>
-                    <Input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.doc,.docx" />
-                  </label>
-                </div>
-                {file && file.type === 'application/pdf' && (
-                  <div className="mt-4">
-                    <PDFViewer file={file} />
-                  </div>
-                )}
-                <Textarea
-                  placeholder="Or paste your resume content here..."
-                  value={resumeText}
-                  onChange={(e) => setResumeText(e.target.value)}
-                  className="h-40 bg-gray-50 border-2 border-gray-200 focus:border-blue-500 transition-colors duration-300"
-                />
-                <Button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                  {isLoading ? (
-                    <>
-                      <Loader className="mr-2 h-4 w-4 animate-spin" />
-                      Enhancing...
-                    </>
-                  ) : (
-                    'Enhance My Resume'
-                  )}
-                </Button>
-              </form>
-              {enhancedResume && (
-                <div className="mt-8">
-                  <h3 className="text-xl font-bold mb-4">Enhanced Resume</h3>
-                  <Textarea value={enhancedResume} readOnly className="h-60 bg-gray-50" />
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-    </ErrorBoundary>
-  )
+  // return (
+  //   <ErrorBoundary>
+  //     <div className="container mx-auto px-4 py-8">
+  //       <motion.div
+  //         initial={{ opacity: 0, y: 20 }}
+  //         animate={{ opacity: 1, y: 0 }}
+  //         transition={{ duration: 0.5 }}
+  //       >
+  //         <Card className="bg-white shadow-xl">
+  //           <CardHeader>
+  //             <CardTitle className="text-2xl font-bold text-gray-800">Upload Your Resume</CardTitle>
+  //             <CardDescription className="text-gray-600">
+  //               Upload your resume or paste your content to get started
+  //             </CardDescription>
+  //           </CardHeader>
+  //           <CardContent>
+  //             <form onSubmit={enhanceResume} className="space-y-4">
+  //               <div className="flex items-center justify-center w-full">
+  //                 <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+  //                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
+  //                     <Upload className="w-10 h-10 mb-3 text-gray-400" />
+  //                     <p className="mb-2 text-sm text-gray-500"><span className="font-semibold">Click to upload</span> or drag and drop</p>
+  //                     <p className="text-xs text-gray-500">PDF, DOC, DOCX (MAX. 5MB)</p>
+  //                   </div>
+  //                   <Input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} accept=".pdf,.doc,.docx" />
+  //                 </label>
+  //               </div>
+  //               {file && file.type === 'application/pdf' && (
+  //                 <div className="mt-4">
+  //                   <PDFViewer file={file} />
+  //                 </div>
+  //               )}
+  //               <Textarea
+  //                 placeholder="Or paste your resume content here..."
+  //                 value={resumeText}
+  //                 onChange={(e) => setResumeText(e.target.value)}
+  //                 className="h-40 bg-gray-50 border-2 border-gray-200 focus:border-blue-500 transition-colors duration-300"
+  //               />
+  //               <Button type="submit" disabled={isLoading} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+  //                 {isLoading ? (
+  //                   <>
+  //                     <Loader className="mr-2 h-4 w-4 animate-spin" />
+  //                     Enhancing...
+  //                   </>
+  //                 ) : (
+  //                   'Enhance My Resume'
+  //                 )}
+  //               </Button>
+  //             </form>
+  //             {enhancedResume && (
+  //               <div className="mt-8">
+  //                 <h3 className="text-xl font-bold mb-4">Enhanced Resume</h3>
+  //                 <Textarea value={enhancedResume} readOnly className="h-60 bg-gray-50" />
+  //               </div>
+  //             )}
+  //           </CardContent>
+  //         </Card>
+  //       </motion.div>
+  //     </div>
+  //   </ErrorBoundary>
+  // )
 }
