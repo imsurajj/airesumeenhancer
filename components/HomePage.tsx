@@ -4,9 +4,9 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, FileText, Zap, Users } from 'lucide-react'
+import { ArrowRight, FileText, Zap, Users, Check } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { SignInButton, useUser } from '@clerk/nextjs'
 
 export default function HomePage() {
