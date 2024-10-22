@@ -18,7 +18,6 @@ import {
 import { Progress } from "@/components/ui/progress";
 
 export default function Navbar() {
-  console.log("Rendering Navbar Component");
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isSignedIn, user } = useUser();
