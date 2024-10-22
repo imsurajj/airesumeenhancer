@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: true, // Re-enable SWC
+  swcMinify: true,
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -12,6 +12,7 @@ const nextConfig = {
         canvas: false,
       };
     }
+    config.externals = [...config.externals, { canvas: "canvas" }];
     return config;
   },
 };
