@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  swcMinify: false,
+  swcMinify: true, // Re-enable SWC
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
