@@ -15,23 +15,6 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     return config;
   },
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-store, must-revalidate',
-          },
-        ],
-      },
-    ];
-  },
-  experimental: {
-    optimizeCss: true,
-    optimizePackageImports: ['@clerk/nextjs', 'lucide-react', 'framer-motion'],
-  },
 };
 
 export default nextConfig;
