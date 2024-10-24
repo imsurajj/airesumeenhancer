@@ -12,13 +12,21 @@ const nextConfig = {
         canvas: false,
       };
     }
+    config.resolve.alias.canvas = false;
     return config;
   },
-  // Add this to handle any runtime errors
-  onError: (error, _req, res) => {
-    console.error('Server Error:', error);
-    res.statusCode = 500;
-    res.end('Internal Server Error');
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, must-revalidate',
+          },
+        ],
+      },
+    ];
   },
 };
 
