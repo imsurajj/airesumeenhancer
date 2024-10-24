@@ -1,12 +1,14 @@
-import HomePage from '@/components/HomePage'
-import ErrorBoundary from '@/components/ErrorBoundary'
 import Navbar from '@/components/Navbar'
+import dynamic from 'next/dynamic'
+
+const HomePage = dynamic(() => import('@/components/HomePage'), {
+  loading: () => <p>Loading...</p>,
+})
 
 export default function Page() {
-  return (
-    <ErrorBoundary>
-      <Navbar />
-      <HomePage />
-    </ErrorBoundary>
-  )
+  return 
+  <>
+  <Navbar />
+  <HomePage />
+  </>
 }

@@ -28,6 +28,10 @@ const nextConfig = {
       },
     ];
   },
+  experimental: {
+    optimizeCss: true,
+    optimizePackageImports: ['@clerk/nextjs', 'lucide-react', 'framer-motion'],
+  },
 };
 
 export default nextConfig;

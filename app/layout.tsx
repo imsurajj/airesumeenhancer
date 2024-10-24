@@ -1,12 +1,14 @@
 import './globals.css'
-import 'react-pdf/dist/esm/Page/AnnotationLayer.css'
-import 'react-pdf/dist/esm/Page/TextLayer.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
-import ErrorBoundary from '@/components/ErrorBoundary'
+import dynamic from 'next/dynamic'
 
 const inter = Inter({ subsets: ['latin'] })
+
+const ErrorBoundary = dynamic(() => import('@/components/ErrorBoundary'), {
+  ssr: false,
+})
 
 export const metadata: Metadata = {
   title: 'AI Resume Enhancer',

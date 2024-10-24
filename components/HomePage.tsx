@@ -8,7 +8,11 @@ import { ArrowRight, FileText, Zap, Users } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SignInButton, useUser } from '@clerk/nextjs'
-import ErrorBoundary from '@/components/ErrorBoundary'
+import dynamic from 'next/dynamic'
+
+const ErrorBoundary = dynamic(() => import('@/components/ErrorBoundary'), {
+  ssr: false,
+})
 
 export default function HomePage() {
   const router = useRouter()
@@ -172,7 +176,7 @@ export default function HomePage() {
               © 2023 AI Resume Enhancer. All rights reserved.
             </div>
           </footer>
-          </main>
+        </main>
       </div>
     </ErrorBoundary>
   )
