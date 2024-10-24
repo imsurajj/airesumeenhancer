@@ -32,7 +32,7 @@ export default function HomePage() {
             className="text-center mb-16"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              Elevate Your Career
+              Elevate Your Career with AI 
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8">Transform your resume with the power of AI</p>
             <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
