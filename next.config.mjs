@@ -12,8 +12,21 @@ const nextConfig = {
         canvas: false,
       };
     }
-    config.externals = [...config.externals, { canvas: "canvas" }];
+    config.resolve.alias.canvas = false;
     return config;
+  },
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-store, must-revalidate',
+          },
+        ],
+      },
+    ];
   },
 };
 

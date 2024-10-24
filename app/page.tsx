@@ -1,12 +1,12 @@
-import HomePage from '@/components/HomePage';
-import Navbar from '@/components/Navbar';
+import HomePage from '@/components/HomePage'
+import ErrorBoundary from '@/components/ErrorBoundary'
+import Navbar from '@/components/Navbar'
 
 export default function Page() {
-  console.log("Rendering Page Component");
   return (
-    <>
+    <ErrorBoundary>
       <Navbar />
       <HomePage />
-    </>
-  );
+    </ErrorBoundary>
+  )
 }

@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -7,22 +8,35 @@ import { ArrowRight, FileText, Zap, Users } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SignInButton, useUser } from '@clerk/nextjs'
-// import ErrorBoundary from '@/components/ErrorBoundary'
+import ErrorBoundary from '@/components/ErrorBoundary'
 
 export default function HomePage() {
   const router = useRouter()
-  const { isSignedIn } = useUser()
+  const { isSignedIn, isLoaded } = useUser()
+  const [error, setError] = useState<Error | null>(null)
 
   const handleTryForFree = () => {
-    if (isSignedIn) {
-      router.push('/upload')
-    } else {
-      router.push('/sign-in?redirect=/upload')
+    try {
+      if (isSignedIn) {
+        router.push('/upload')
+      } else {
+        router.push('/sign-in?redirect=/upload')
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err : new Error('An unknown error occurred'))
     }
   }
 
-  return (
+  if (error) {
+    throw error
+  }
 
+  if (!isLoaded) {
+    return <div>Loading...</div>
+  }
+
+  return (
+    <ErrorBoundary>
       <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
         <main className="container mx-auto px-4 py-16">
           <motion.div
@@ -32,7 +46,7 @@ export default function HomePage() {
             className="text-center mb-16"
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-              Elevate Your Career with AI 
+              Elevate Your Career
             </h1>
             <p className="text-xl md:text-2xl text-gray-600 mb-8">Transform your resume with the power of AI</p>
             <div className="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-4">
@@ -158,7 +172,8 @@ export default function HomePage() {
               © 2023 AI Resume Enhancer. All rights reserved.
             </div>
           </footer>
-        </main>
+          </main>
       </div>
+    </ErrorBoundary>
   )
 }
